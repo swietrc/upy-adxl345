@@ -41,6 +41,9 @@ class ADXL345:
             i2c.writeto_mem(self.address, ADXL345_REG_POWER_CTL, '\x08') # Measurement mode ON
         else:
             raise RuntimeError('Failed to find the expected device ID register value')
+
+        _b = i2c.readfrom_mem(self.address, ADXL345_REG_DATA_FORMAT, 1)
+        i2c.writeto_mem(self.address, ADXL345_REG_DATA_FORMAT, _b & 0b11111100)
        
     def read(self):
         raw = self.i2c.readfrom_mem(self.address, ADXL345_REG_DATAX0, 6)
