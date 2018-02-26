@@ -38,6 +38,8 @@ class ADXL345:
         self.address = address
         print("ADDRESS = " + str(self.address))
         if i2c.readfrom_mem(self.address, ADXL345_REG_DEVID, 1) == b'\xe5':
+            i2c.writeto_mem(self.address, ADXL345_REG_POWER_CTL, '\x00') 
+            i2c.writeto_mem(self.address, ADXL345_REG_POWER_CTL, '\x10') 
             i2c.writeto_mem(self.address, ADXL345_REG_POWER_CTL, '\x08') # Measurement mode ON
         else:
             raise RuntimeError('Failed to find the expected device ID register value')
